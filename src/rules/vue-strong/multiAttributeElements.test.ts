@@ -20,6 +20,23 @@ describe('multiAttributeElements', () => {
     expect(result).toStrictEqual([])
   })
 
+  it('should not report files when elements have a single complex attribute', () => {
+    const template = {
+      content: `
+        <template>
+          <div id="app"></div>
+          <div class="container border"></div>
+          <button @click="openPage(object.property as string)">Click me</button>
+        </template>
+      `,
+    } as SFCTemplateBlock
+    const filename = 'single-attribute-element.vue'
+    checkMultiAttributeElements(template, filename)
+    const result = reportMultiAttributeElements()
+    expect(result.length).toBe(0)
+    expect(result).toStrictEqual([])
+  })
+
   it('should report files where one element has multiple attributes on the same line', () => {
     const template = {
       content: `
