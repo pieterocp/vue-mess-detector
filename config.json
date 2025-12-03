@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vue Mess Detector Configuration",
+  "description": "JSON schema for vue-mess-detector.json configuration file",
+  "type": "object",
+  "properties": {
+    "apply": {
+      "type": "string",
+      "description": "Comma-separated list of rule sets or rules to apply",
+      "pattern": "^[a-zA-Z0-9_-]+(,[a-zA-Z0-9_-]+)*$?",
+      "default": "all-rules-default",
+      "examples": ["vue-strong,rrd", ""]
+    },
+    "ignore": {
+      "type": "string",
+      "description": "Comma-separated list of rulesets or rules to ignore (disables apply when present)",
+      "pattern": "^[a-zA-Z0-9_-]+(,[a-zA-Z0-9_-]+)*$?",
+      "examples": ["some-rule"]
+    },
+    "fileIgnoreRules": {
+      "type": "object",
+      "description": "Map of file paths to ignored lint rules",
+      "patternProperties": {
+        ".*": {
+          "type": "string",
+          "description": "Comma-separated list of rule IDs to ignore for this file",
+          "pattern": "^[a-zA-Z0-9_-]+(,[a-zA-Z0-9_-]+)*$?"
+        }
+      },
+      "default": {},
+      "additionalProperties": false
+    },
+    "exclude": {
+      "type": "string",
+      "description": "Comma-separated list of directories/files to exclude (supports wildcards)",
+      "pattern": "^[a-zA-Z0-9_*.,/-]+(,[a-zA-Z0-9_*.,/-]+)*$?",
+      "examples": ["node_modules,tests"]
+    },
+    "group": {
+      "type": "string",
+      "description": "Group results by file or rule",
+      "enum": ["rule", "file"],
+      "default": "rule"
+    },
+    "level": {
+      "type": "string",
+      "description": "Show only specific level",
+      "enum": ["all", "error", "warn"],
+      "default": "all"
+    },
+    "sort": {
+      "type": "string",
+      "description": "Order results",
+      "enum": ["asc", "desc"],
+      "default": "desc"
+    },
+    "output": {
+      "type": "string",
+      "description": "Output format",
+      "enum": ["text", "table", "json"],
+      "default": "text"
+    },
+    "override": {
+      "type": "object",
+      "description": "Override rule limits and thresholds",
+      "additionalProperties": true,
+      "examples": [{
+        "minVariableName": 4,
+        "maxParameterCount": 3,
+        "maxTabs": 5
+      }]
+    }
+  },
+  "additionalProperties": false
+}
